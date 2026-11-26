@@ -1,5 +1,7 @@
 # Assignment 2: Dockerize a small Flask app with a basic CI check
 
+![Docker build](https://github.com/hetanshiagrawal/dockerized-flask-app/actions/workflows/build.yml/badge.svg)
+
 A tiny Flask app (`/` and `/health`) packaged with Docker and built by GitHub Actions on every push.
 
 ## Files
@@ -18,14 +20,18 @@ docker run -d --name myapp -p 5000:5000 myapp
 curl localhost:5000/health
 ```
 
-### Output
+Stop and clean up: `docker rm -f myapp`
+
+## Output
+
+Command run in CI (GitHub Actions, "Smoke test /health" step):
+
 ```
-$ curl localhost:5000/health
+curl http://localhost:5000/health
 {"status":"ok"}
 ```
-<!-- Replace/confirm with your own terminal output or a screenshot from your Docker run -->
 
-Stop and clean up: `docker rm -f myapp`
+Note: the first attempt in the CI log fails with "Connection reset by peer" because the container is still starting. The retry loop tries again and gets the response above, and the step passes.
 
 ## Task 4: Bugs in the teammate's Dockerfile
 
